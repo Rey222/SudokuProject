@@ -12,16 +12,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         // Кнопка "Назад в меню"
-        val backToMenuButton = findViewById<Button>(R.id.backToMenuButton)
-        backToMenuButton.setOnClickListener {
-            val intent = Intent(this, MenuActivity::class.java)
-            startActivity(intent)
-            finish()
+        findViewById<Button>(R.id.backToMenuButton).setOnClickListener {
+            Intent(this, MenuActivity::class.java).also {
+                startActivity(it)
+                finish()
+            }
         }
 
-        // Позже сюда добавим:
-        // - инициализацию игровой доски
-        // - обработку уровней сложности
-        // - логику ввода чисел и проверки
+        // Пока просто находим доску — позже добавим генерацию игры
+        val sudokuBoard = findViewById<SudokuBoard>(R.id.sudokuBoard)
+        // TODO: sudokuBoard.generateGame("Средний")
     }
 }
