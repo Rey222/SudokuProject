@@ -2,57 +2,178 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
     android:padding="16dp">
 
-    <TextView
-        android:id="@+id/titleText"
+    <!-- Сердечки (жизни) -->
+    <LinearLayout
+        android:id="@+id/livesLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Судоку"
-        android:textSize="24sp"
-        android:textStyle="bold"
+        android:orientation="horizontal"
+        android:gravity="center"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp" />
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <TextView
-        android:id="@+id/statusText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Выберите ячейку и введите число"
-        android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/titleText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp" />
+        <ImageView
+            android:id="@+id/heart1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/heart_icon"
+            android:contentDescription="Heart 1"
+            android:layout_marginEnd="8dp" />
 
-    <!-- Доска Судоку -->
+        <ImageView
+            android:id="@+id/heart2"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/heart_icon"
+            android:contentDescription="Heart 2"
+            android:layout_marginEnd="8dp" />
+
+        <ImageView
+            android:id="@+id/heart3"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/heart_icon"
+            android:contentDescription="Heart 3" />
+    </LinearLayout>
+
+    <!-- Игровая доска Судоку -->
     <com.example.sudokuproject.SudokuBoard
-        android:id="@+id/sudokuBoard"
+        android:id="@+id/SudokuBoard"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="24dp"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintTop_toBottomOf="@id/statusText"
-        app:layout_constraintBottom_toTopOf="@id/backToMenuButton"
+        app:layout_constraintTop_toBottomOf="@id/livesLayout"
+        app:layout_constraintBottom_toTopOf="@+id/numberButtonsLayout"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp" />
 
+    <!-- Кнопки 1–9 -->
+    <GridLayout
+        android:id="@+id/numberButtonsLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:columnCount="3"
+        android:rowCount="3"
+        android:padding="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/backToMenuButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <Button android:id="@+id/btn1" android:text="1" style="@style/NumberButton" />
+        <Button android:id="@+id/btn2" android:text="2" style="@style/NumberButton" />
+        <Button android:id="@+id/btn3" android:text="3" style="@style/NumberButton" />
+        <Button android:id="@+id/btn4" android:text="4" style="@style/NumberButton" />
+        <Button android:id="@+id/btn5" android:text="5" style="@style/NumberButton" />
+        <Button android:id="@+id/btn6" android:text="6" style="@style/NumberButton" />
+        <Button android:id="@+id/btn7" android:text="7" style="@style/NumberButton" />
+        <Button android:id="@+id/btn8" android:text="8" style="@style/NumberButton" />
+        <Button android:id="@+id/btn9" android:text="9" style="@style/NumberButton" />
+    </GridLayout>
+
+    <!-- Кнопка "Вернуться в меню" -->
     <Button
         android:id="@+id/backToMenuButton"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Вернуться в меню"
+        android:text="Вернуться в главное меню"
+        android:textSize="16sp"
+        android:backgroundTint="#FF33B5E5"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginHorizontal="16dp"
         android:layout_marginBottom="16dp" />
+
+    <!-- Окно победы -->
+    <FrameLayout
+        android:id="@+id/winFrame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="#80000000">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@android:color/white"
+            android:padding="16dp"
+            android:layout_gravity="center">
+
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@drawable/clapping"
+                android:contentDescription="Победа"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="12dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Поздравляем!"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Вы решили судоку!"
+                android:textSize="16sp"
+                android:gravity="center" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <!-- Окно проигрыша -->
+    <FrameLayout
+        android:id="@+id/loseFrame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="#80000000">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@android:color/white"
+            android:padding="16dp"
+            android:layout_gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Вы проиграли!"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Сделано 3 ошибки."
+                android:textSize="16sp"
+                android:gravity="center"
+                android:layout_marginBottom="16dp" />
+
+            <Button
+                android:id="@+id/replayButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Заново"
+                android:layout_gravity="center_horizontal" />
+        </LinearLayout>
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,16 +11,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Кнопка "Назад в меню"
+        // Кнопка "Вернуться в меню"
         findViewById<Button>(R.id.backToMenuButton).setOnClickListener {
-            Intent(this, MenuActivity::class.java).also {
-                startActivity(it)
+            Intent(this, MenuActivity::class.java).also { intent ->
+                startActivity(intent)
                 finish()
             }
         }
 
-        // Пока просто находим доску — позже добавим генерацию игры
-        val sudokuBoard = findViewById<SudokuBoard>(R.id.sudokuBoard)
-        // TODO: sudokuBoard.generateGame("Средний")
+        // Подключаем доску — ID как в XML: SudokuBoard (с большой буквы!)
+        val sudokuBoard = findViewById<SudokuBoard>(R.id.SudokuBoard)
+        // Пока без генерации — просто убедимся, что она отображается
     }
 }
