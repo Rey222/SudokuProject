@@ -13,8 +13,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val difficulty = intent.getStringExtra("difficulty") ?: "Средний"
+
         sudokuBoard = findViewById(R.id.SudokuBoard)
-        sudokuBoard.initializeSamplePuzzle()
+        sudokuBoard.generatePuzzle(difficulty)
 
         findViewById<Button>(R.id.backToMenuButton).setOnClickListener {
             Intent(this, MenuActivity::class.java).also { intent ->
