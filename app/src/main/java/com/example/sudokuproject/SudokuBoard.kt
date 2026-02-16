@@ -13,7 +13,6 @@ class SudokuBoard @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
-    // Кисти
     private val thickLinePaint = Paint().apply {
         color = android.graphics.Color.BLACK
         strokeWidth = 8f
@@ -33,10 +32,9 @@ class SudokuBoard @JvmOverloads constructor(
 
     private var cellSize = 0
 
-    // Простая доска для хранения чисел (позже заменим на Solver)
     private val board = Array(9) { IntArray(9) }
+    private val isFixed = Array(9) { BooleanArray(9) }
 
-    // Выбранная ячейка
     var selectedRow = -1
         private set
     var selectedColumn = -1
@@ -69,6 +67,12 @@ class SudokuBoard @JvmOverloads constructor(
             for (c in 0 until 9) {
                 val num = board[r][c]
                 if (num != 0) {
+                    val textColor = if (isFixed[r][c]) {
+                        android.graphics.Color.BLACK // исходные — чёрные
+                    } else {
+                        android.graphics.Color.BLUE // введённые — синие
+                    }
+                    textPaint.color = textColor
                     canvas.drawText(
                         num.toString(),
                         (c + 0.5f) * cellSize.toFloat(),
@@ -79,7 +83,6 @@ class SudokuBoard @JvmOverloads constructor(
             }
         }
 
-        // Подсветка выбранной ячейки
         if (selectedRow != -1 && selectedColumn != -1) {
             val highlightPaint = Paint().apply {
                 color = 0x4087CEFA.toInt()
@@ -105,8 +108,30 @@ class SudokuBoard @JvmOverloads constructor(
         return super.onTouchEvent(event)
     }
 
-    // Метод для установки числа (будет вызываться из MainActivity)
     fun setCell(row: Int, col: Int, value: Int) {
-        board[row][col] = value
+        if (!isFixed[row][col]) {
+            board[row][col] = value
+        }
+    }
+
+    fun initializeSamplePuzzle() {
+        val puzzle = arrayOf(
+            intArrayOf(5, 3, 0, 0, 7, 0, 0, 0, 0),
+            intArrayOf(6, 0, 0, 1, 9, 5, 0, 0, 0),
+            intArrayOf(0, 9, 8, 0, 0, 0, 0, 6, 0),
+            intArrayOf(8, 0, 0, 0, 6, 0, 0, 0, 3),
+            intArrayOf(4, 0, 0, 8, 0, 3, 0, 0, 1),
+            intArrayOf(7, 0, 0, 0, 2, 0, 0, 0, 6),
+            intArrayOf(0, 6, 0, 0, 0, 0, 2, 8, 0),
+            intArrayOf(0, 0, 0, 4, 1, 9, 0, 0, 5),
+            intArrayOf(0, 0, 0, 0, 8, 0, 0, 7, 9)
+        )
+
+        for (r in 0 until 9) {
+            for (c in 0 until 9) {
+                board[r][c] = puzzle[r][c]
+                isFixed[r][c] = puzzle[r][c] != 0
+            }
+        }
     }
 }
