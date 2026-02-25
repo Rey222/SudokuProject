@@ -19,6 +19,9 @@ class MainActivity : AppCompatActivity() {
     private var errorCount = 0
     private val maxLives = 3
 
+    private var correctCount = 0
+    private val jokesEvery = 3
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -46,6 +49,8 @@ class MainActivity : AppCompatActivity() {
                 onNumberClick(i)
             }
         }
+
+
     }
 
     private fun onNumberClick(number: Int) {
@@ -59,7 +64,17 @@ class MainActivity : AppCompatActivity() {
 
         val isCorrect = sudokuBoard.trySetNumber(number)
 
-        if (!isCorrect) {
+        if (isCorrect) {
+            correctCount++
+
+            if (correctCount % jokesEvery == 0) {
+                JokeHelper.showRandomJoke(this) {
+                    checkWin()
+                }
+            } else {
+                checkWin()
+            }
+        } else {
             errorCount++
             updateHearts()
             Toast.makeText(this, "Ошибка!", Toast.LENGTH_SHORT).show()
@@ -69,10 +84,11 @@ class MainActivity : AppCompatActivity() {
                 return
             }
         }
+    }
 
+    private fun checkWin() {
         if (sudokuBoard.checkWin()) {
             Toast.makeText(this, "Победа!", Toast.LENGTH_LONG).show()
-
         }
     }
 
@@ -86,6 +102,7 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(this, "Игра окончена", Toast.LENGTH_LONG).show()
         sudokuBoard.resetGame()
         errorCount = 0
+        correctCount = 0
         updateHearts()
     }
 }
