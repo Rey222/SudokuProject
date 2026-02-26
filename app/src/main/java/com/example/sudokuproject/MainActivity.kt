@@ -101,6 +101,7 @@ class MainActivity : AppCompatActivity() {
     private fun gameOver() {
         Toast.makeText(this, "Игра окончена", Toast.LENGTH_LONG).show()
         sudokuBoard.resetGame()
+        CatHelper.showCuteCat(this)
         errorCount = 0
         correctCount = 0
         updateHearts()
